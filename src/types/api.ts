@@ -20,5 +20,5 @@ export interface PaginatedResponse {
     next: string | null;
     prev: string | null;
   };
-  results: Character;
+  results: Character[];
 }
