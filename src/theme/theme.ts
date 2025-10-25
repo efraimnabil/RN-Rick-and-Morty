@@ -26,12 +26,18 @@ export const theme = {
     lg: 24,
   },
   fontSizes: {
+    xs: 12,
+    sm: 14,
+    md: 16,
+    lg: 20,
+    xl: 28,
     body: 16,
     title: 20,
     detail_header: 28,
   },
   fontWeights: {
     regular: '400',
+    medium: '500',
     bold: '700',
   },
   radii: {

@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Character } from '@/types/api';
 import { Text, View } from 'react-native';
+import ListScreen from '@/screens/ListScreen';
+import DetailsScreen from '@/screens/DetailsScreen';
 
 export type RootStackParamList = {
   List: undefined;
@@ -10,18 +12,12 @@ export type RootStackParamList = {
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
-
-const ListScreen: React.FC = () => (
-  <View>
-    <Text>List Screen</Text>
-  </View>
-);
-
 export default function AppNavigator() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="List" component={ListScreen} />
+        <Stack.Screen name="List" component={ListScreen} options={{ title: 'Characters' }} />
+        <Stack.Screen name="Details" component={DetailsScreen} options={({ route }) => ({ title: route.params.character.name })} />
       </Stack.Navigator>
     </NavigationContainer>
   );
