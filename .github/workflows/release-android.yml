@@ -30,12 +30,20 @@ jobs:
         run: npm ci
 
       - name: 🚀 Build APK
-        run: eas build --platform android --profile preview --non-interactive
+        id: build
+        run: |
+          eas build \
+            --platform android \
+            --profile preview \
+            --non-interactive \
+            --json \
+            --output=build-output.json
 
       - name: 📥 Download APK
         run: |
-          # Get the latest build URL
-          APK_URL=$(eas build:list --platform android --limit 1 --json | jq -r '.[0].artifacts.buildUrl')
+          # Read the artifact URL from the JSON file created by the 'build' step
+          # 'eas build --json' outputs an array, so we take the first element [0]
+          APK_URL=$(jq -r '.[0].artifacts.buildUrl' build-output.json)
           echo "Downloading APK from: $APK_URL"
           curl -L -o rick-and-morty-browser.apk "$APK_URL"
 
