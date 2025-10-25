@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "ReactNativeTask",
-    "slug": "ReactNativeTask",
+    "name": "Rick and Morty Browser",
+    "slug": "rick-and-morty-browser",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,15 +10,17 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#24282f"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.efraimnabil.rickandmortybrowser"
     },
     "android": {
+      "package": "com.efraimnabil.rickandmortybrowser",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#97ce4c"
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false
