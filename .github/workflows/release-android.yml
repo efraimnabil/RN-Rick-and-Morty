@@ -41,9 +41,27 @@ jobs:
 
       - name: 📥 Download APK
         run: |
-          # Read the artifact URL from the JSON file created by the 'build' step
-          # 'eas build --json' outputs an array, so we take the first element [0]
-          APK_URL=$(jq -r '.[0].artifacts.buildUrl' build-output.json)
+          echo "Fetching latest 'preview' build..."
+          # Fetch the build list filtered by profile and status
+          BUILD_LIST_JSON=$(eas build:list --platform android --profile preview --status finished --limit 1 --json --non-interactive)
+          
+          # Error handling: Check if the command output is valid JSON
+          if ! echo "$BUILD_LIST_JSON" | jq .; then
+            echo "::error::Failed to retrieve valid JSON from 'eas build:list'."
+            echo "EAS output: $BUILD_LIST_JSON"
+            exit 1
+          fi
+          
+          # Securely parse the URL
+          APK_URL=$(echo "$BUILD_LIST_JSON" | jq -r '.[0].artifacts.buildUrl')
+          
+          # Error handling: Check if the URL was found
+          if [ -z "$APK_URL" ] || [ "$APK_URL" == "null" ]; then
+            echo "::error::Could not parse 'buildUrl' from EAS response."
+            echo "Full JSON response: $BUILD_LIST_JSON"
+            exit 1
+          fi
+          
           echo "Downloading APK from: $APK_URL"
           curl -L -o rick-and-morty-browser.apk "$APK_URL"
 
