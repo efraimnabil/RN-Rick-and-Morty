@@ -14,11 +14,14 @@ export const rickAndMortyApi = createApi({
       // Always merge incoming data to the cache entry
       merge: (currentCache, newItems) => {
         currentCache.info = newItems.info;
-        currentCache.results.push(...newItems.results);
+        // Prevent duplicates by checking if character already exists
+        const existingIds = new Set(currentCache.results.map(char => char.id));
+        const uniqueNewItems = newItems.results.filter(char => !existingIds.has(char.id));
+        currentCache.results.push(...uniqueNewItems);
       },
       // Refetch when the page arg changes
       forceRefetch({ currentArg, previousArg }) {
-        return currentArg!== previousArg;
+        return currentArg !== previousArg;
       },
     }),
   }),
